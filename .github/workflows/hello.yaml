@@ -5,7 +5,7 @@ on:
   push:
 
     branches:
-      -- main
+      - main
 
 jobs :
 
@@ -15,6 +15,6 @@ jobs :
 
     steps:
       - run: touch hello.txt
-      - run: echo "hello form github actions!" > hello.txt
+      - run: echo "hello from github actions!" > hello.txt
       - run: cat hello.txt
       - run: ls -ls
