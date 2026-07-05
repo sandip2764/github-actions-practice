@@ -17,6 +17,6 @@ jobs:
       AUTHOR: sandip
 
     steps:
-      - run: echo "Application Name - ${{var.APP_NAME}}"
-      - run: echo "Version - ${{var.VERSION}}"
+      - run: echo "Application Name - ${{vars.APP_NAME}}"
+      - run: echo "Version - ${{vars.VERSION}}"
       - run: echo "Author Name - $AUTHOR"
