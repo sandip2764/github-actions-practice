@@ -1,0 +1,20 @@
+name : hello github actions
+
+on:
+
+  push:
+
+    branches:
+      -- main
+
+jobs :
+
+  create:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: touch hello.txt
+      - run: echo "hello form github actions!" > hello.txt
+      - run: cat hello.txt
+      - run: ls -ls
