@@ -1,0 +1,12 @@
+name: learn conditional statement.
+
+on:
+  push:
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: work this if it's MAIN branch!
+        if: github.ref == 'refs/heads/main'
+        run: echo "deploying....."
