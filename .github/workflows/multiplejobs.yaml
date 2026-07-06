@@ -1,0 +1,23 @@
+name: work on multiple jobs
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: building
+
+    steps:
+      - name: printing..
+        run: echo "building..."
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: deploying
+    needs: build
+
+    steps:
+      - name: printing
+        run: echo "deploying..."
+      
