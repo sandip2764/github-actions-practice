@@ -12,10 +12,19 @@ jobs:
       - name: printing..
         run: echo "building..."
 
+  test:
+    runs-on: ubuntu-latest
+    name: testing
+    needs: build
+
+    steps:
+      - name: printing
+        run: echo "testing..."
+
   deploy:
     runs-on: ubuntu-latest
     name: deploying
-    needs: build
+    needs: test
 
     steps:
       - name: printing
