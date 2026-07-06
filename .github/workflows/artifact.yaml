@@ -1,0 +1,33 @@
+name: learn artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: echo "this is output.txt" > output.txt
+      - run: cat output.txt
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: my-output-file
+          path: output.txt
+
+  download-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: my-output-file
+
+      - run: ls -la
+      - run: cat output.txt
+
