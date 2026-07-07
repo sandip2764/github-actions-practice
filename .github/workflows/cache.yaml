@@ -1,0 +1,33 @@
+name: explore cache
+
+on:
+
+  push:
+
+    branches:
+      - main
+
+jobs:
+
+  cache:
+
+    runs-on: ubuntu-latest
+
+    name: cache jobs
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+      
+      - name: install dependencies
+        run: pip install -r assignment9/requirements.txt
+
+      - name: run python program
+        run: python app.py
+
