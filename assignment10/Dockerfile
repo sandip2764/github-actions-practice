@@ -2,9 +2,9 @@ FROM python:3
 
 WORKDIR /usr/src/app
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r assignment10/requirements.txt
+COPY ./assignment10/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+COPY ./assignment10/ .
 
 CMD [ "python", "./script.py" ]
