@@ -1,4 +1,4 @@
-name: dockerfile create
+name: docker image build and push
 
 on:
   push:
@@ -28,7 +28,7 @@ jobs:
       - name: build image and push
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./assignment10/
           push: true
           tags: sandip859740/my-python-app:latest
         
