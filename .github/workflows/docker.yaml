@@ -28,7 +28,7 @@ jobs:
       - name: build image and push
         uses: docker/build-push-action@v6
         with:
-          context: ./assignment10/
+          context: ./assignment10
           push: true
           tags: sandip859740/my-python-app:latest
         
