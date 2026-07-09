@@ -1,0 +1,64 @@
+name: docker using artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  
+  # only build image not push ...
+
+  build-docker-image:
+    runs-on: ubuntu-latest
+    
+    steps:
+        
+      - name: run checkout
+        uses: actions/checkout@v4
+
+      - name: setup docker using build x
+        uses: docker/setup-buildx-action@v3
+      
+      - name: login into docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      
+      - name: build docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./assignment11
+          push: false
+          load: true
+          tags: sandip859740/artifact:latest
+      
+      - name: save docker image
+        run: docker save sandip859740/artifact:latest -o my-image.tar   
+      
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with: 
+          name: docker-image
+          path: my-image.tar
+
+  run-docker-image:
+    runs-on: ubuntu-latest
+    needs: build-docker-image
+
+    steps:
+      
+      - name: download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+      
+      - name: load Image
+        run: docker load -i my-image.tar
+      
+      - name: run container
+        run: docker run --rm sandip859740/artifact:latest
+      
+      
+      
