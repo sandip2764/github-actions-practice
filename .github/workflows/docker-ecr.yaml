@@ -1,0 +1,38 @@
+name: docker image push on ecr
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  docker-image-build-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: run checkout
+        uses: actions/checkout@v4
+      
+      - name: aws cli configuearion
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+
+      - name: setup docker
+        uses: docker/setup-buildx-action@v3
+
+      - name: docker login
+        run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 929616024576.dkr.ecr.us-east-1.amazonaws.com/karfect
+      
+      - name: docker build and push into ecr
+        uses: docker/build-push-action@v6
+        with:
+          context: ./assignment13
+          push: true
+          load: true
+          tags: 929616024576.dkr.ecr.us-east-1.amazonaws.com/karfect/my-python-app:latest
+
+
+      
