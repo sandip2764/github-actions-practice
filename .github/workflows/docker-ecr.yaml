@@ -32,7 +32,7 @@ jobs:
           context: ./assignment13
           push: true
           load: true
-          tags: 929616024576.dkr.ecr.us-east-1.amazonaws.com/karfect/my-python-app:latest
+          tags: 929616024576.dkr.ecr.us-east-1.amazonaws.com/karfect:latest
 
 
       
