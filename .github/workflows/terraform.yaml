@@ -1,0 +1,70 @@
+name: terraform create and apply
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  plan:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: clone code 
+        uses: actions/checkout@v4
+
+      - name: aws cli configuraion
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+      
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: run terraform init
+        run: terraform init
+      
+      - name: run terraform plan and save the plan
+        run: terraform plan -out=tfplan
+    
+      - name: upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-plan
+          path: tfplan
+
+  apply:
+    
+    needs: plan
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+        - name: clone code 
+          uses: actions/checkout@v4
+
+        - name: aws cli configuraion
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+    
+        - name: setup terraform
+          uses: hashicorp/setup-terraform@v3
+
+        - name: download artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: terraform-plan
+
+        - name: run terraform init
+          run: terraform init
+
+        - name: run terraform apply with plan
+          run: terraform apply -auto-approve tfplan
+      
+    
